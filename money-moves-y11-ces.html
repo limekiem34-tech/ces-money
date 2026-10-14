@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Money Moves Daily: Year 11 CES finance games</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;800&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#E4EBE3; --surface:#F4F7F2; --ink:#1D2622; --muted:#55625B; --line:#C5D0C6;
+  --cinnabar:#B3352B; --bronze:#9A7A3A; --jade:#2F7560; --blue:#3B5A7A;
+  --slip:#DCCB94; --slip-line:#C7B276; --slip-ink:#2B2416; --absent:#7C8781;
+  --on-accent:#FFFFFF; --hero:#EEF2EC; --mtn3:#C3CFC5; --mtn2:#91A598; --mtn1:#4D6258;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#111916; --surface:#1A2420; --ink:#E5ECE5; --muted:#9BA89F; --line:#2E3B35;
+    --cinnabar:#E0574A; --bronze:#C9A45C; --jade:#4FA886; --blue:#7FA3C9;
+    --slip:#3A3424; --slip-line:#4A422E; --slip-ink:#EADFC0; --absent:#46514B; --hero:#16201B; --mtn3:#22302A; --mtn2:#2C3E35; --mtn1:#3B5247;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#111916; --surface:#1A2420; --ink:#E5ECE5; --muted:#9BA89F; --line:#2E3B35;
+  --cinnabar:#E0574A; --bronze:#C9A45C; --jade:#4FA886; --blue:#7FA3C9;
+  --slip:#3A3424; --slip-line:#4A422E; --slip-ink:#EADFC0; --absent:#46514B; --hero:#16201B; --mtn3:#22302A; --mtn2:#2C3E35; --mtn1:#3B5247;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+html[data-big]{font-size:125%}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",sans-serif;font-size:1rem;line-height:1.5;-webkit-tap-highlight-color:transparent}
+h1,h2,h3,.display{font-family:"Archivo","Songti SC","Noto Serif",Georgia,serif;font-weight:800;line-height:1.15;margin:0}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,input:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.wrap{max-width:960px;margin:0 auto;padding:1.25rem 1rem 3rem}
+.muted{color:var(--muted)}
+
+/* Header */
+.top{display:flex;gap:1rem;align-items:flex-start;justify-content:space-between;margin-bottom:1.25rem}
+.title h1{font-size:clamp(2.1rem,7vw,3.4rem);letter-spacing:-.01em}
+.title p{margin:.35rem 0 0;color:var(--muted);max-width:34rem}
+.seal{flex:none;width:76px;height:76px;background:var(--cinnabar);color:#fff;border-radius:6px;display:grid;place-items:center;text-align:center;transform:rotate(-4deg);box-shadow:inset 0 0 0 3px rgba(255,255,255,.35)}
+.seal b{display:block;font-family:"Archivo",Georgia,serif;font-size:1.9rem;line-height:1}
+.seal span{font-size:.72rem;line-height:1.1}
+.controls{display:flex;flex-wrap:wrap;gap:.75rem;align-items:center;margin:0 0 1.5rem}
+.seg{display:inline-flex;border:2px solid var(--ink);border-radius:999px;overflow:hidden}
+.seg button{border:0;background:transparent;padding:.45rem 1rem;font-weight:700}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.chip{border:2px solid var(--line);background:var(--surface);border-radius:999px;padding:.4rem .9rem;font-weight:700}
+.chip[aria-pressed="true"]{border-color:var(--jade);color:var(--jade)}
+.stat{font-weight:700}
+
+/* Menu: ink-wash hero + artefact cards */
+.hero{position:relative;overflow:hidden;border-radius:10px;background:var(--hero);padding:1.4rem 1.2rem 0;margin-bottom:1rem}
+.hero .ink{display:block;width:calc(100% + 2.4rem);margin:.6rem -1.2rem 0;height:auto;aspect-ratio:4/1;min-height:120px;max-height:230px}
+.hero .head{position:relative;display:flex;justify-content:space-between;gap:1rem;align-items:flex-start}
+.hero h1{font-size:clamp(2.3rem,8vw,3.8rem);letter-spacing:-.01em}
+.hero p{margin:.4rem 0 0;max-width:30rem;color:var(--muted)}
+.mt3{fill:var(--mtn3)}.mt2{fill:var(--mtn2)}.mt1{fill:var(--mtn1)}.sun{fill:var(--cinnabar)}
+.birds{fill:none;stroke:var(--mtn1);stroke-width:2;stroke-linecap:round}
+.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.7rem}
+@media(min-width:700px){.cards{grid-template-columns:repeat(4,minmax(0,1fr));gap:.9rem}}
+.card{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:1.4rem .95rem 1rem;text-align:left;display:flex;flex-direction:column;gap:.45rem;min-height:190px;transition:border-color .15s ease,transform .15s ease}
+.card::before{content:"";position:absolute;top:0;left:0;right:0;height:9px;background:var(--cinnabar);border-radius:8px 8px 0 0;
+  -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='9'%3E%3Cpath d='M1 8V1h12v5H6V4h4' fill='none' stroke='black' stroke-width='1.6'/%3E%3C/svg%3E") repeat-x;
+  mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='9'%3E%3Cpath d='M1 8V1h12v5H6V4h4' fill='none' stroke='black' stroke-width='1.6'/%3E%3C/svg%3E") repeat-x}
+.card:hover{border-color:var(--jade);transform:translateY(-2px)}
+.emblem{width:48px;height:48px;border-radius:50%;border:2px solid var(--jade);color:var(--jade);display:grid;place-items:center;margin-bottom:.25rem}
+.emblem svg{width:28px;height:28px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.card h3{font-size:1.22rem;line-height:1.2;color:var(--ink)}
+.card .desc{font-size:.9rem;line-height:1.35;color:var(--muted)}
+.card .go{margin-top:auto;font-weight:700;color:var(--jade);font-size:.9rem}
+.card .done{position:absolute;top:1.1rem;right:.7rem;background:var(--cinnabar);color:#fff;font-weight:700;font-size:.8rem;padding:.2rem .45rem;border-radius:3px;transform:rotate(-6deg)}
+.footnote{margin-top:1.5rem;font-size:.9rem;color:var(--muted);max-width:44rem}
+
+/* Game shell */
+.gtop{display:flex;align-items:center;justify-content:space-between;gap:.5rem;margin-bottom:1rem}
+.back{border:0;background:transparent;font-weight:700;padding:.4rem 0;color:var(--muted)}
+.gtitle{font-size:clamp(1.6rem,5vw,2.2rem)}
+.progress{font-weight:700;color:var(--muted)}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:1rem}
+.prompt{font-family:"Archivo",Georgia,serif;font-weight:600;font-size:clamp(1.25rem,4vw,1.6rem);line-height:1.3;margin:0 0 1rem}
+.tag{display:inline-block;font-size:.78rem;font-weight:700;padding:.1rem .5rem;border-radius:3px;margin-bottom:.6rem;color:var(--on-accent)}
+.tag.main,.tag.china{background:var(--cinnabar)}.tag.a,.tag.other{background:var(--bronze)}.tag.b,.tag.local{background:var(--jade)}.tag.mix,.tag.compare{background:var(--blue)}
+.row{display:flex;gap:.5rem;flex-wrap:wrap;align-items:center}
+.input{flex:1 1 12rem;min-width:0;padding:.75rem .9rem;border:2px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit;font-size:1.1rem}
+.btn{border:2px solid var(--ink);background:var(--ink);color:var(--bg);padding:.7rem 1.1rem;border-radius:8px;font-weight:700}
+.btn.ghost{background:transparent;color:var(--ink)}
+.btn:disabled{opacity:.4;cursor:default}
+.feedback{margin-top:.9rem;padding:.8rem .9rem;border-left:5px solid var(--jade);background:var(--bg);border-radius:0 8px 8px 0}
+.feedback.bad{border-color:var(--cinnabar)}
+.feedback.mid{border-color:var(--bronze)}
+.big-score{font-family:"Archivo",Georgia,serif;font-size:2.4rem;font-weight:800}
+.list{margin:.5rem 0 0;padding:0;list-style:none;display:grid;gap:.3rem}
+.list li{display:flex;justify-content:space-between;gap:1rem;padding:.35rem .5rem;border-radius:6px;background:var(--surface)}
+.list li.you{outline:2px solid var(--jade)}
+
+/* Wordle */
+.wgrid{display:grid;gap:6px;justify-content:center;margin:.5rem 0 1rem}
+.wrow{display:grid;gap:6px}
+.tile{width:min(11vw,52px);height:min(11vw,52px);display:grid;place-items:center;border:2px solid var(--line);font-weight:700;font-size:1.4rem;border-radius:4px;background:var(--surface)}
+.tile.filled{border-color:var(--muted)}
+.tile.correct{background:var(--jade);border-color:var(--jade);color:#fff}
+.tile.present{background:var(--bronze);border-color:var(--bronze);color:#fff}
+.tile.absent{background:var(--absent);border-color:var(--absent);color:#fff}
+.kb{display:grid;gap:6px;max-width:520px;margin:0 auto}
+.kbr{display:flex;gap:5px;justify-content:center}
+.key{flex:1;min-width:0;height:52px;border:0;border-radius:6px;background:var(--line);font-weight:700;font-size:.95rem;padding:0}
+.key.wide{flex:1.6;font-size:.8rem}
+.key.correct{background:var(--jade);color:#fff}.key.present{background:var(--bronze);color:#fff}.key.absent{background:var(--absent);color:#fff}
+.clue{text-align:center;margin:0 auto .5rem;max-width:32rem}
+
+/* Connections */
+.cgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+.ctile{min-height:64px;border:0;border-radius:8px;background:var(--slip);color:var(--slip-ink);font-weight:700;font-size:clamp(.72rem,2.6vw,.95rem);padding:.3rem;line-height:1.15;word-break:break-word}
+.ctile[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.solved{border-radius:8px;padding:.6rem;text-align:center;color:#fff;margin-bottom:6px}
+.solved b{display:block}
+.lv0{background:var(--jade)}.lv1{background:var(--bronze)}.lv2{background:var(--blue)}.lv3{background:var(--cinnabar)}
+.dots{display:inline-flex;gap:4px;vertical-align:middle}.dots i{width:10px;height:10px;border-radius:50%;background:var(--muted);display:inline-block}.dots i.used{background:var(--line)}
+
+/* Timeline */
+.tl{list-style:none;margin:0;padding:0;display:grid;gap:.5rem}
+.tl li{display:flex;align-items:center;gap:.6rem;background:var(--surface);border:2px solid var(--line);border-radius:8px;padding:.55rem .6rem}
+.tl li.ok{border-color:var(--jade)}.tl li.no{border-color:var(--cinnabar)}
+.tl .txt{flex:1}
+.tl .yr{font-weight:700;color:var(--muted);font-size:.9rem;white-space:nowrap}
+.arrows{display:flex;flex-direction:column;gap:3px}
+.arrows button{border:1px solid var(--line);background:var(--bg);border-radius:5px;width:38px;height:28px;padding:0;font-weight:700}
+
+/* Choice buttons */
+.choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.5rem}
+.choice{border:2px solid var(--line);background:var(--surface);border-radius:8px;padding:.9rem .6rem;font-weight:700;min-height:64px}
+.choice.right{border-color:var(--jade);background:var(--jade);color:#fff}
+.choice.wrong{border-color:var(--cinnabar);background:var(--cinnabar);color:#fff}
+.cluelist{margin:0 0 1rem;padding-left:1.4rem;display:grid;gap:.35rem}
+.share{white-space:pre-wrap;background:var(--bg);border:1px dashed var(--line);border-radius:8px;padding:.7rem;font-size:.95rem}
+
+/* New games */
+.ptl{list-style:none;margin:0;padding:0;display:grid;gap:.35rem}
+.ptl li{display:flex;align-items:center;gap:.6rem;border-radius:8px}
+.ptl .ref{background:var(--bg);border:1px solid var(--line);padding:.55rem .7rem}
+.ptl .txt{flex:1}.ptl .yr{font-weight:700;color:var(--muted);font-size:.9rem;white-space:nowrap}
+.ptl .gap button{width:100%;border:2px dashed var(--jade);background:transparent;color:var(--jade);border-radius:8px;padding:.45rem;font-weight:700}
+.ptl .gap.miss{border:2px dashed var(--cinnabar);color:var(--cinnabar);padding:.4rem .7rem;font-weight:700}
+.ptl .placed{padding:.6rem .7rem;color:#fff}.ptl .placed.ok{background:var(--jade)}.ptl .placed.no{background:var(--bronze)}
+.ptl .placed .yr{color:#fff}
+.route{list-style:none;margin:0 0 .6rem;padding:0;display:flex;justify-content:space-between;position:relative}
+.route::before{content:"";position:absolute;left:6px;right:6px;top:7px;height:3px;background:var(--line)}
+.route li{position:relative;display:flex;flex-direction:column;align-items:center;gap:.25rem;flex:1;font-size:.68rem;font-weight:700;text-align:center;color:var(--muted);min-width:0}
+.route .dot{width:16px;height:16px;border-radius:50%;background:var(--surface);border:3px solid var(--line)}
+.route .been .dot{background:var(--bronze);border-color:var(--bronze)}.route .been{color:var(--ink)}
+.route .next .dot{border-color:var(--cinnabar)}
+.trail{font-size:.85rem;font-weight:700;color:var(--bronze);margin:0 0 .4rem}
+.choices.one{grid-template-columns:1fr}
+.meters{display:grid;gap:.4rem}
+.meter{display:grid;grid-template-columns:8.5rem 1fr 2rem;gap:.6rem;align-items:center;font-size:.92rem}
+.meter .bar{height:12px;border-radius:6px;background:var(--line);overflow:hidden}.meter .bar i{display:block;height:100%;transition:width .4s ease}
+.meter b{text-align:right}
+.sortcard{background:var(--slip);color:var(--slip-ink);border-radius:8px;padding:1.2rem 1rem;text-align:center;font-family:"Archivo",Georgia,serif;font-weight:600;font-size:1.25rem;line-height:1.3}
+.bins{display:grid;gap:.5rem}
+.bin{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:.5rem;display:flex;flex-direction:column;gap:.4rem;min-width:0}
+.bin .btn{padding:.6rem .3rem;font-size:.9rem;word-break:break-word}
+.bin ul{list-style:none;margin:0;padding:0;display:grid;gap:.3rem;font-size:.82rem;line-height:1.3}
+.bin li{overflow-wrap:anywhere;padding:.3rem .4rem;border-radius:5px;border-left:4px solid var(--jade);background:var(--bg)}
+.bin li.no{border-color:var(--cinnabar)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+/* theme */
+:root{--bg:#EEF2F1;--surface:#FFFFFF;--ink:#15262A;--muted:#536468;--line:#D2DCDB;--cinnabar:#C24D33;--bronze:#A97412;--jade:#1E7A55;--blue:#2F5D8A;--slip:#F3DE9C;--slip-line:#E6CB74;--slip-ink:#33270A;--absent:#87928F;--hero:#DDEBE5;--mtn3:#B9D6C9;--mtn2:#7FB59D;--mtn1:#2E7A5B}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0F1A1B;--surface:#172426;--ink:#E4EEEC;--muted:#9DB0AD;--line:#2A3B3C;--cinnabar:#E8775B;--bronze:#E1AE4A;--jade:#4CC08F;--blue:#82A9D6;--slip:#463B18;--slip-line:#574A20;--slip-ink:#F5E6B5;--absent:#455451;--hero:#132321;--mtn3:#1E3A31;--mtn2:#27503F;--mtn1:#2F6A52}}
+:root[data-theme="dark"]{--bg:#0F1A1B;--surface:#172426;--ink:#E4EEEC;--muted:#9DB0AD;--line:#2A3B3C;--cinnabar:#E8775B;--bronze:#E1AE4A;--jade:#4CC08F;--blue:#82A9D6;--slip:#463B18;--slip-line:#574A20;--slip-ink:#F5E6B5;--absent:#455451;--hero:#132321;--mtn3:#1E3A31;--mtn2:#27503F;--mtn1:#2F6A52}
+.card::before{-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9'%3E%3Crect x='2' y='2' width='10' height='5' rx='1'/%3E%3C/svg%3E") repeat-x;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9'%3E%3Crect x='2' y='2' width='10' height='5' rx='1'/%3E%3C/svg%3E") repeat-x}
+
+</style>
+</head>
+<body>
+<main class="wrap" id="app" aria-live="polite"></main>
+<script>
+/* ============ CONTENT: Year 11 CES Student Finances ============
+   Weights: Budgeting, saving & debt 65%, banking & paying bills 15%,
+   wants, needs, value & giving 15%, money and your future 5%. */
+const CONFIG={
+ key:"money-moves-y11-v1",title:"Money Moves Daily",
+ tagline:"Twelve quick games for Year 11 Career Education: budgeting, saving, debt and smart money choices.",
+ mix:"Question mix: 65% budgeting, saving and debt, 15% banking and paying bills, 15% wants, needs, value and giving, 5% money and your future. Struggling with debt? The National Debt Helpline is free on 1800 007 007.",
+ games:{obscure:{name:"Rare Answers"},dynastle:{name:"Cashle"},groups:{name:"Groups of Four"},timeline:{name:"Rank It",desc:"Put six items in order"},place:{name:"Where Does It Fit?",desc:"Slot an item into a ranked list"},
+   silk:{name:"Debt Recovery Path",desc:"Pick the right steps out of debt"},mandate:{name:"Payday Choices",desc:"Make money decisions and keep your balance"},sort:{name:"Sort It Out"}},
+ icons:{mandate:'<rect x="4" y="9" width="24" height="15" rx="2"/><circle cx="16" cy="16.5" r="3.5"/><path d="M8 13v.01M24 20v.01"/>',
+   silk:'<path d="M6 28V20h6v-6h6V8h8"/><path d="M22 4l4 4-4 4"/>',timeline:'<path d="M5 26h4V18H5zM14 26h4V12h-4zM23 26h4V6h-4z"/>',
+   dynastle:'<circle cx="16" cy="16" r="12"/><path d="M19.5 11.5c-.8-1-2-1.5-3.5-1.5-2 0-3.5 1-3.5 2.7 0 3.8 7.5 2 7.5 6 0 1.8-1.6 2.8-3.8 2.8-1.6 0-3-.6-3.7-1.7M16 7.5v2.5M16 22v2.5"/>'},
+ journey:{cat:"main",ask:"What's the best next step?",here:"Current step:",step:"Step"},
+ sim:{cat:"main",unit:"Pay day",meters:["Savings","Credit score","Wellbeing"],intro:"Make money decisions over six pay days. Keep your savings, credit score and wellbeing healthy. If any hits zero, you're in financial trouble.",fail:"You're in financial trouble. In real life, free help is available from the National Debt Helpline on 1800 007 007.",lost:"In financial trouble"}
+};
+const CATW={main:.65,a:.15,b:.15,mix:.05};
+const CATNAME={main:"Budgeting, saving & debt",a:"Banking & paying bills",b:"Wants, needs, value & giving",mix:"Money and your future"};
+
+const WORDS=[
+["BUDGET","A plan for your income and spending.","main"],
+["SAVINGS","Money put aside for later.","main"],
+["DEBT","Money you owe to someone else.","main"],
+["CREDIT","Borrowed money you pay back later, often with interest.","main"],
+["INTEREST","The cost of borrowing money, or the reward for saving it.","main"],
+["LOAN","Money borrowed that's repaid over time.","main"],
+["INCOME","Money coming in, like wages.","main"],
+["EXPENSE","Money going out, like rent or fuel.","main"],
+["WAGE","Pay you earn per hour or week.","main"],
+["SALARY","Fixed yearly pay, usually paid fortnightly or monthly.","main"],
+["DEFAULT","Listed on your credit report when a debt is 60+ days overdue.","main"],
+["REPAY","Pay back money you borrowed.","main"],
+["MORTGAGE","Loan used to buy a home.","main"],
+["HARDSHIP","Ask your lender about this if you can't make repayments.","main"],
+["GOAL","Savings ___: something specific you're saving for.","main"],
+["FEES","Extra charges, like late payment ones.","main"],
+["DEPOSIT","Money put into an account, or paid upfront on a purchase.","main"],
+["PAYSLIP","Shows your pay, tax and super each pay period.","main"],
+["LAYBY","Pay off an item in parts before you take it home.","main"],
+["MINIMUM","Paying only this on a credit card keeps you in debt longer.","main"],
+["SURPLUS","When income is more than expenses.","main"],
+["DEFICIT","When expenses are more than income.","main"],
+["BALANCE","How much money is in your account.","main"],
+["COMPOUND","___ interest: interest on your interest.","main"],
+["BPAY","Pay bills through your bank with a biller code.","a"],
+["DEBIT","Card that spends money already in your account.","a"],
+["ACCOUNT","Where your money is kept at a bank.","a"],
+["RECEIPT","Proof of payment.","a"],
+["DUEDATE","The date a bill must be paid by (two words, typed as one).","a"],
+["PREPAID","Card loaded with money before you use it.","a"],
+["WANTS","Things that are nice to have but not essential.","b"],
+["NEEDS","Things essential for living, like food and shelter.","b"],
+["VALUE","What something is worth to you, not just its price.","b"],
+["PRICE","The amount you pay for something.","b"],
+["CHARITY","Non-profit organisation that helps a cause.","b"],
+["DONATE","Give money or goods to a cause.","b"],
+["SUPER","Money saved for retirement by your employer.","mix"],
+["PAYDAY","The day your wages land in your account.","mix"]
+].map(([w,clue,cat])=>({w,clue,cat}));
+
+const OBSCURE=[
+{cat:"main",q:"Name a regular expense in a household budget.",a:[["Rent",10],["Groceries",10,"food"],["Electricity",15,"power"],["Phone",15,"mobile"],["Fuel",20,"petrol"],["Internet",25],["Insurance",30],["Public transport",30,"transport"],["Water",35],["Streaming subscriptions",35,"subscriptions","netflix"],["Car registration",40,"rego","registration"],["Gas",40],["Clothing",40,"clothes"],["Medical",50,"doctor"],["Gym",50],["Education",55,"school fees"],["Car servicing",60],["Pet costs",60,"pets"],["Gifts",70],["Haircuts",70],["Toiletries",70],["Childcare",70],["Council rates",75,"rates"],["Body corporate",90,"strata"]]},
+{cat:"main",q:"Name a way to save money.",a:[["Make a budget",10,"budget","budgeting"],["Savings account",15],["Cook at home",20],["Cut back on takeaway",25,"less takeaway"],["Compare prices",30],["Shop the sales",30,"sales"],["Pack your lunch",35],["Set a savings goal",35,"goal"],["Buy second-hand",40,"op shop"],["Cancel subscriptions",40],["Use public transport",45],["Buy home brand",50,"generic brands"],["Use discounts",50,"coupons"],["Turn off lights",50],["Buy in bulk",55,"bulk"],["Sell things you don't use",55,"sell stuff"],["Automatic transfers",60],["Switch phone plans",60],["Round-up savings",65,"round ups"],["Wait 30 days before buying",70,"30 day rule"]]},
+{cat:"main",q:"Name a type of debt or credit.",a:[["Credit card",10],["Personal loan",20],["Home loan",20,"mortgage"],["Car loan",20],["Buy now pay later",30,"afterpay","bnpl","zip"],["Borrowing from friends",45],["HECS-HELP",50,"hecs","student loan"],["Payday loan",50],["Phone contract",55,"phone plan"],["Overdraft",60],["Store card",65],["Interest-free deal",70],["Line of credit",75],["Rent-to-own",80],["Tax debt",80]]},
+{cat:"main",q:"Name a problem that a large amount of debt can cause.",a:[["Stress",10],["Bad credit score",20,"bad credit"],["Can't get loans",25],["Interest piling up",30,"more interest"],["Debt collectors",35],["Can't save",35],["Mental health issues",40,"anxiety","depression"],["Bankruptcy",40],["Losing your home",45,"repossession"],["Relationship problems",50],["Legal action",55,"court"],["Losing your car",55],["Sleep problems",60],["Health problems",60],["Missing out on activities",65]]},
+{cat:"main",q:"Name an option a lender might offer if you're struggling with repayments.",a:[["Reduce repayments",15,"lower repayments"],["Payment plan",15],["Pause repayments",30,"payment holiday"],["Extend the loan term",35,"longer loan"],["Hardship arrangement",40,"hardship"],["Waive fees",45,"waive late fees"],["Freeze interest",50,"stop interest"],["Consolidate debts",60,"debt consolidation"],["Refer you to a financial counsellor",65,"financial counsellor"],["Interest-only repayments",75,"interest only"],["Sell an asset",80]]},
+{cat:"main",q:"Name a savings goal a young person might have.",a:[["Car",10],["Travel",15,"holiday"],["Phone",20],["Gaming console",25],["Laptop",30],["Clothes",30],["House deposit",35,"house"],["Concert tickets",35],["Driver's licence",40,"licence"],["Driving lessons",45],["Moving out",45],["Emergency fund",50],["Uni or TAFE costs",50,"education","uni"],["Formal",50],["Tools for a trade",70,"tools"],["Investing",70,"shares"],["Starting a business",75,"business"],["Gap year",80]]},
+{cat:"main",q:"Name a way a person can earn income.",a:[["Job",5,"part time job","wage","work"],["Salary",15],["Pocket money",20,"allowance"],["Selling items",35],["Babysitting",40],["Business",40],["Lawn mowing",45],["Centrelink payments",45,"youth allowance","centrelink"],["Interest",50],["Tutoring",50],["Tips",55],["Content creation",60],["Freelancing",65],["Scholarship",70],["Dividends",75,"shares"],["Rent from a property",75,"rental income"],["Commission",80],["Busking",85]]},
+{cat:"a",q:"Name a way to pay a bill.",a:[["Direct debit",15],["BPAY",15],["Credit card",15],["Cash",20],["Online banking",20],["Debit card",25],["Bank transfer",30],["App",35],["Phone",40],["Post Billpay",45,"post office","australia post"],["Apple Pay",45,"google pay"],["PayPal",50],["Centrepay",60],["Mail",65,"cheque"],["Buy now pay later",70]]},
+{cat:"a",q:"Name something you'd find on a bill.",a:[["Amount payable",10,"amount due","total"],["Due date",10],["Customer name",30,"name"],["Account number",25],["Payment options",40],["Reference number",45],["Biller code",50],["Billing period",50],["Usage",55],["Previous balance",60],["GST",65],["Concessions",70],["Hardship contact",80,"financial difficulty"],["Supply charge",85],["Interpreter services",85,"interpreter"]]},
+{cat:"b",q:"Name something that's a need, not a want.",a:[["Food",5],["Water",10],["Shelter",10,"housing","rent"],["Clothing",15,"clothes"],["Healthcare",25,"medicine","doctor"],["Electricity",35,"power"],["Transport",40],["Education",40],["Sleep",45],["Safety",50],["Toiletries",55,"hygiene products"],["Heating",60]]},
+{cat:"b",q:"Name an Australian charity or non-profit organisation.",a:[["Red Cross",15],["Salvation Army",15,"salvos"],["RSPCA",20],["Cancer Council",25],["Vinnies",30,"st vincent de paul"],["World Vision",30],["Beyond Blue",35],["Lifeline",40],["Smith Family",45,"the smith family"],["WWF",45],["Starlight Foundation",50,"starlight"],["Foodbank",50],["Make-A-Wish",50,"make a wish"],["Movember",50],["Guide Dogs",50],["Ronald McDonald House",50],["Royal Flying Doctor Service",55,"flying doctor"],["Surf Life Saving",55],["OzHarvest",60],["McGrath Foundation",60],["headspace",60],["Fred Hollows Foundation",65],["Legacy",70],["yourtown",70],["Black Dog Institute",75],["Orange Sky",80]]},
+{cat:"mix",q:"Name something that affects your credit score.",a:[["Late payments",10,"paying late"],["Paying on time",15],["Missed repayments",15],["Defaults",30],["Number of credit applications",40,"credit enquiries","applications"],["Bankruptcy",50],["Credit limit",55],["Type of credit",65],["Length of credit history",70],["Court judgements",80]]}
+];
+
+const FERMI=[
+{cat:"main",q:"$50 a week is how much a year?",type:"qty",a:2600,unit:"dollars",spread:.4,fact:"52 weeks × $50 = $2,600."},
+{cat:"main",q:"$300 a week is about how much a month?",type:"qty",a:1300,unit:"dollars",spread:.3,fact:"$300 × 52 ÷ 12 = $1,300. Multiplying by 4 undercounts, because most months are longer than 4 weeks."},
+{cat:"main",q:"$1,560 a year is how much per week?",type:"qty",a:30,unit:"dollars",spread:.4,fact:"$1,560 ÷ 52 = $30 a week."},
+{cat:"main",q:"What's a typical credit card interest rate in Australia (% per year)?",type:"qty",a:20,unit:"%",spread:.5,fact:"Many cards charge around 20% a year. Low-rate cards charge less."},
+{cat:"main",q:"Saving $20 a week, how many weeks to reach $1,000?",type:"qty",a:50,unit:"weeks",spread:.4,fact:"$1,000 ÷ $20 = 50 weeks, just under a year."},
+{cat:"main",q:"Using the Rule of 72, how many years does money take to double at 6% interest?",type:"qty",a:12,unit:"years",spread:.4,fact:"72 ÷ 6 = 12 years."},
+{cat:"main",q:"$1,000 earning 5% interest compounded yearly is worth how much after 10 years?",type:"qty",a:1629,unit:"dollars",spread:.3,fact:"About $1,629. With simple interest it would only be $1,500."},
+{cat:"main",q:"How many years can a default stay on an Australian credit report?",type:"qty",a:5,unit:"years",spread:.4,fact:"5 years, even after it's paid off."},
+{cat:"main",q:"How many years of repayment history are kept on your credit report?",type:"qty",a:2,unit:"years",spread:.5,fact:"2 years of monthly repayment history."},
+{cat:"main",q:"In the 50/30/20 budget rule, what percentage of income goes to needs?",type:"qty",a:50,unit:"%",spread:.4,fact:"50% needs, 30% wants, 20% savings and paying off debt."},
+{cat:"main",q:"How many months of expenses are commonly suggested for an emergency fund?",type:"qty",a:3,unit:"months",spread:.5,fact:"Commonly 3 to 6 months of essential expenses."},
+{cat:"main",q:"What's the top score on Equifax's Australian credit score scale?",type:"qty",a:1200,unit:"points",spread:.4,fact:"Equifax scores run from 0 to 1200. Experian and illion use 0 to 1000."},
+{cat:"main",q:"A debt must be overdue for at least how many days before it can be listed as a default?",type:"qty",a:60,unit:"days",spread:.5,fact:"60 days, and the debt must be $150 or more."},
+{cat:"a",q:"In what year did BPAY start in Australia?",type:"year",a:1997,scale:30,fact:"1997."},
+{cat:"a",q:"In what year did Australia switch to dollars and cents?",type:"year",a:1966,scale:40,fact:"14 February 1966, replacing pounds, shillings and pence."},
+{cat:"a",q:"Up to how many dollars can you usually tap a card without a PIN in Australia?",type:"qty",a:200,unit:"dollars",spread:.5,fact:"Usually up to $200, though some stores set a lower limit."},
+{cat:"b",q:"Under the 50/30/20 rule, how many dollars of every $100 go to wants?",type:"qty",a:30,unit:"dollars",spread:.4,fact:"$30. Wants are the first place to cut when money is tight."},
+{cat:"b",q:"A $200 pair of work boots worn 400 times costs how many cents per wear?",type:"qty",a:50,unit:"cents",spread:.5,fact:"50 cents a wear. A higher price can still be great value."},
+{cat:"mix",q:"What's Australia's tax-free threshold for residents (dollars per year)?",type:"qty",a:18200,unit:"dollars",spread:.3,fact:"$18,200. You don't pay income tax on earnings below this."},
+{cat:"mix",q:"What percentage of your ordinary earnings must employers pay into super (since July 2025)?",type:"qty",a:12,unit:"%",spread:.4,fact:"12%."}
+];
+
+const CONNECT=[
+{cat:"main",groups:[
+ {name:"Types of debt",items:["Credit card","Personal loan","Car loan","Buy now pay later"]},
+ {name:"Ways to save",items:["Savings account","Term deposit","Round-up app","Emergency fund"]},
+ {name:"Household expenses",items:["Rent","Groceries","Fuel","Insurance"]},
+ {name:"Sources of income",items:["Wages","Salary","Interest earned","Centrelink"]}]},
+{cat:"main",groups:[
+ {name:"Hurts your credit score",items:["Late payments","Defaults","Many applications","Bankruptcy"]},
+ {name:"Hardship options",items:["Lower repayments","Longer loan term","Pause repayments","Waived fees"]},
+ {name:"Fixed expenses",items:["Phone plan","Gym membership","Car insurance","Rego"]},
+ {name:"Variable expenses",items:["Electricity","Entertainment","Takeaway","Petrol"]}]},
+{cat:"main",groups:[
+ {name:"Effects of big debt",items:["Stress","Debt collectors","Legal action","Repossession"]},
+ {name:"Budgeting steps",items:["Track income","Track spending","Set goals","Review monthly"]},
+ {name:"Savings goals",items:["Car","Travel","House deposit","Laptop"]},
+ {name:"Free money help",items:["National Debt Helpline","Moneysmart","Financial counsellor","Bank hardship team"]}]},
+{cat:"a",groups:[
+ {name:"Ways to pay bills",items:["BPAY","Direct debit","Centrepay","Post Billpay"]},
+ {name:"Found on a bill",items:["Due date","Amount payable","Biller code","Concessions"]},
+ {name:"Types of cards",items:["Debit card","Credit card","Prepaid card","Store card"]},
+ {name:"Banking actions",items:["Deposit","Withdrawal","Transfer","Check balance"]}]},
+{cat:"b",groups:[
+ {name:"Needs",items:["Food","Shelter","Water","Medicine"]},
+ {name:"Wants",items:["Concert tickets","Designer shoes","Gaming console","Streaming"]},
+ {name:"Charities",items:["Red Cross","Salvos","RSPCA","Vinnies"]},
+ {name:"Things that affect value",items:["Quality","Durability","Usefulness","Cost per use"]}]},
+{cat:"mix",groups:[
+ {name:"Starting your first job",items:["Tax file number","Payslip","Super fund","Bank account"]},
+ {name:"Long-term goals",items:["Buying a home","Retirement","Starting a business","Further study"]},
+ {name:"Short-term goals",items:["New phone","Weekend trip","Driving lessons","Festival ticket"]},
+ {name:"Financial risks",items:["Payday loans","Scams","Gambling","Impulse buying"]}]}
+];
+
+const RANK=[
+{cat:"main",title:"What does it cost per year?",low:"Cheapest per year",high:"Most expensive per year",note:"Weekly × 52, fortnightly × 26, monthly × 12, quarterly × 4.",items:[
+ ["$15 a month streaming",180,"$180 a year"],["$90 a quarter electricity share",360,"$360 a year"],["$600 a year car rego",600,"$600 a year"],["$4 snack every weekday",1040,"$1,040 a year"],["$50 a fortnight phone plan",1300,"$1,300 a year"],["$35 a week fuel",1820,"$1,820 a year"]]},
+{cat:"main",title:"Making a budget",low:"First",high:"Last",items:[
+ ["Work out your income",1],["Track what you spend",2],["Sort spending into needs and wants",3],["Set a savings goal",4],["Cut back on wants to reach it",5],["Review your budget each month",6]]},
+{cat:"main",title:"Getting out of debt",low:"First",high:"Last",items:[
+ ["List everything you owe",1],["Build a realistic budget",2],["Contact your lenders early",3],["Ask about hardship options",4],["Get free financial counselling",5],["Stick to the repayment plan",6]]},
+{cat:"main",title:"If you can't pay a bill on time",low:"First",high:"Last",items:[
+ ["Check the amount and due date",1],["Contact the provider before the due date",2],["Ask for a payment plan or hardship help",3],["Agree on an amount you can afford",4],["Make each payment on time",5]]},
+{cat:"a",title:"How quickly can you get the money?",low:"Fastest",high:"Slowest",items:[
+ ["Cash in your wallet",1,"Instantly"],["Everyday bank account",2,"Same day"],["Online savings account",3,"Usually within a day"],["Term deposit",4,"Locked for a set term"],["Superannuation",5,"Usually not until retirement"]]},
+{cat:"b",title:"Cost per use (price vs value)",low:"Lowest cost per use",high:"Highest cost per use",items:[
+ ["$200 runners worn 400 times",0.5,"50c per use"],["$90 jacket worn 30 times",3,"$3 per use"],["$4 bus fare, one trip",4,"$4 per use"],["$25 novelty shirt worn twice",12.5,"$12.50 per use"],["$15 movie ticket, used once",15,"$15 per use"]]}
+];
+
+const WHO=[
+{cat:"main",a:["Budget","a budget","budgeting"],clues:["I can be made on paper, in a spreadsheet or in an app.","I compare money coming in with money going out.","I help you spot where you're overspending.","The 50/30/20 rule is one way to set me up.","I'm a plan for your income and spending."]},
+{cat:"main",a:["Credit score","credit rating"],clues:["Lenders check me before approving a loan.","In Australia I can range up to 1000 or 1200, depending on the bureau.","Late payments and defaults push me down.","Paying on time slowly pushes me up.","I'm a number that shows how reliable you are with credit."]},
+{cat:"main",a:["Interest"],clues:["Banks pay me to savers.","Borrowers pay me to lenders.","I'm usually shown as a percentage per year.","On credit cards I'm often around 20%.","I'm the cost of borrowing money."]},
+{cat:"main",a:["Compound interest","compounding"],clues:["Albert Einstein is often (probably wrongly) quoted praising me.","I grow faster the longer you leave me alone.","The Rule of 72 estimates how quickly I double your money.","I work for savers and against borrowers.","I'm interest earned on your interest."]},
+{cat:"main",a:["Buy now pay later","bnpl","afterpay"],clues:["I split a purchase into instalments.","Missing my payments can mean late fees.","I've been regulated as a form of credit in Australia since 2025.","Afterpay and Zip are examples of me.","I let you take something home now and pay over time."]},
+{cat:"main",a:["Default","a default"],clues:["I can stay on your credit report for 5 years.","I can only be listed when a debt is at least $150.","I'm listed when a payment is 60 or more days overdue.","I make it much harder to get a loan.","I'm a record that you didn't repay a debt."]},
+{cat:"main",a:["Emergency fund","emergency savings","rainy day fund"],clues:["I'm usually kept in a separate account.","Experts suggest I cover 3 to 6 months of expenses.","I stop you reaching for a credit card when something breaks.","Car repairs and job loss are what I'm for.","I'm savings set aside for unexpected costs."]},
+{cat:"main",a:["National Debt Helpline","debt helpline"],clues:["I'm a not-for-profit service.","I connect people with financial counsellors.","My help is free.","My number is 1800 007 007.","I help Australians dealing with debt."]},
+{cat:"main",a:["Moneysmart","money smart"],clues:["I'm run by ASIC, the corporate regulator.","I have budget planners and loan calculators.","I warn people about scams and dodgy lenders.","Teachers use my free resources.","I'm the Australian Government's money guidance website."]},
+{cat:"a",a:["BPAY","b pay"],clues:["I started in Australia in 1997.","You need a biller code and a reference number to use me.","I'm found in your internet or phone banking.","I'm owned by Australian banks.","I'm a way to pay bills electronically through your bank."]},
+{cat:"a",a:["Centrepay"],clues:["I'm free and voluntary.","I'm run by Services Australia.","I take regular amounts straight from Centrelink payments.","People use me for rent, power and other bills.","I'm the bill-paying service for people on Centrelink."]},
+{cat:"a",a:["Direct debit"],clues:["You sign an agreement to set me up.","I'm great if you tend to forget due dates.","You need enough money in your account or you may be charged a fee.","The biller takes the payment automatically.","I'm a regular automatic payment from your account."]},
+{cat:"b",a:["Opportunity cost"],clues:["Economists talk about me a lot.","Every choice has me.","If you buy a $300 jacket, I might be the concert you can't afford.","I'm not always measured in money.","I'm the next best thing you give up when you make a choice."]},
+{cat:"b",a:["Non-profit organisation","not-for-profit","non-profit","charity"],clues:["I can earn money, but I don't share profits with owners.","My surplus goes back into my cause.","Donations to me may be tax deductible.","The Red Cross and RSPCA are examples of me.","I exist to help a cause, not to make profit."]},
+{cat:"mix",a:["Superannuation","super"],clues:["Employers must pay me at 12% of your ordinary earnings.","You usually can't access me until retirement age.","Compound interest helps me grow over decades.","You choose a fund to look after me.","I'm money saved for your retirement."]}
+];
+
+const ODD=[
+{cat:"main",o:["Credit card","Personal loan","Car loan","Savings account"],x:"Savings account",why:"A savings account holds your money. The others are debt."},
+{cat:"main",o:["Late payments","Defaults","Bankruptcy","Paying on time"],x:"Paying on time",why:"Paying on time helps your credit score. The others hurt it."},
+{cat:"main",o:["Moneysmart","National Debt Helpline","Financial counsellor","Payday lender"],x:"Payday lender",why:"Payday lenders charge high fees. The others give free, reliable help."},
+{cat:"main",o:["Phone plan","Rent","Insurance","Groceries"],x:"Groceries",why:"Groceries change week to week (variable). The others are fixed expenses."},
+{cat:"main",o:["Wage","Salary","Interest earned","Loan repayment"],x:"Loan repayment",why:"A loan repayment is money going out. The others are income."},
+{cat:"main",o:["Lower repayments","Longer loan term","Pause repayments","Higher credit limit"],x:"Higher credit limit",why:"A bigger limit adds risk. The others are hardship options that ease repayments."},
+{cat:"main",o:["Budget","Savings goal","Emergency fund","Impulse buy"],x:"Impulse buy",why:"Impulse buys work against your plan. The others help you stay on track."},
+{cat:"main",o:["Stress","Debt collectors","Legal action","Compound savings"],x:"Compound savings",why:"Compound savings grow your money. The others are effects of large debt."},
+{cat:"main",o:["Track income","Track spending","Set goals","Ignore bills"],x:"Ignore bills",why:"Ignoring bills leads to fees and debt. The others are budgeting steps."},
+{cat:"main",o:["Term deposit","Savings account","Round-up app","Buy now pay later"],x:"Buy now pay later",why:"BNPL is a form of credit. The others help you save."},
+{cat:"a",o:["BPAY","Direct debit","Centrepay","Payday loan"],x:"Payday loan",why:"A payday loan is borrowing. The others are ways to pay bills."},
+{cat:"a",o:["Due date","Amount payable","Biller code","Credit score"],x:"Credit score",why:"Your credit score isn't printed on a bill. The others are."},
+{cat:"a",o:["Debit card","Prepaid card","Cash","Credit card"],x:"Credit card",why:"A credit card spends borrowed money. The others use your own money."},
+{cat:"b",o:["Food","Water","Shelter","Designer shoes"],x:"Designer shoes",why:"Designer shoes are a want. The others are needs."},
+{cat:"b",o:["Red Cross","Salvation Army","RSPCA","JB Hi-Fi"],x:"JB Hi-Fi",why:"JB Hi-Fi is a for-profit business. The others are non-profit organisations."},
+{cat:"mix",o:["Tax file number","Payslip","Super fund","Lay-by"],x:"Lay-by",why:"Lay-by is a way to buy things. The others are part of starting a job."}
+];
+
+const TF=[
+{cat:"main",s:"Paying only the minimum on a credit card is a quick way to clear the debt.",t:false,why:"Myth. Interest keeps adding up, so it can take years and cost far more."},
+{cat:"main",s:"If you can't pay a bill, contacting the provider before the due date can help.",t:true,why:"Fact. Many providers offer payment plans or hardship help if you ask early."},
+{cat:"main",s:"Missing buy now pay later payments can lead to late fees.",t:true,why:"Fact. Fees add up quickly, and BNPL is now regulated as credit in Australia."},
+{cat:"main",s:"Checking your own credit score lowers it.",t:false,why:"Myth. Checking your own report doesn't affect your score."},
+{cat:"main",s:"Budgets are only for people who are short of money.",t:false,why:"Myth. Budgets help anyone reach goals and avoid debt."},
+{cat:"main",s:"Applying for lots of credit in a short time can lower your credit score.",t:true,why:"Fact. Many applications can make lenders see you as a risk."},
+{cat:"main",s:"You can get a free copy of your credit report in Australia.",t:true,why:"Fact. You can request one free from each credit bureau every three months."},
+{cat:"main",s:"Compound interest means earning interest on your interest.",t:true,why:"Fact. That's why starting to save early makes such a difference."},
+{cat:"main",s:"Payday loans are a cheap way to borrow money.",t:false,why:"Myth. Their fees make them one of the most expensive ways to borrow."},
+{cat:"main",s:"Free financial counselling is available through the National Debt Helpline.",t:true,why:"Fact. Call 1800 007 007."},
+{cat:"main",s:"A default can stay on your credit report for 5 years.",t:true,why:"Fact. Even after you pay it off."},
+{cat:"main",s:"Monthly budget = weekly amount × 4.",t:false,why:"Myth. Use × 52 ÷ 12. Multiplying by 4 misses about 4 weeks a year."},
+{cat:"main",s:"Having a surplus means your income is bigger than your expenses.",t:true,why:"Fact. A deficit is the opposite."},
+{cat:"a",s:"A debit card lets you spend the bank's money.",t:false,why:"Myth. A debit card spends your own money. A credit card spends borrowed money."},
+{cat:"a",s:"With direct debit, you must remember to pay each bill manually.",t:false,why:"Myth. Payments come out automatically. Just make sure there's enough in your account."},
+{cat:"a",s:"Centrepay is for people who receive Centrelink payments.",t:true,why:"Fact. Amounts are deducted from Centrelink payments to cover bills."},
+{cat:"b",s:"Price and value mean the same thing.",t:false,why:"Myth. Price is what you pay. Value is what it's worth to you over time."},
+{cat:"b",s:"Non-profit organisations aren't allowed to earn any money.",t:false,why:"Myth. They can earn money, but surpluses go back into their cause."},
+{cat:"b",s:"A want is something you need to survive.",t:false,why:"Myth. That's a need. Wants are nice to have but not essential."},
+{cat:"mix",s:"In Australia, you pay income tax starting from your very first dollar earned.",t:false,why:"Myth. Residents have a tax-free threshold of $18,200."}
+];
+
+const ROUTE=[
+{n:"Face the problem",f:"You've fallen behind on a car loan and a credit card. Admitting it is the first step."},
+{n:"List everything you owe",f:"Write down each debt, its interest rate, the minimum payment and the due date."},
+{n:"Build a budget",f:"Track income and expenses so you know what you can realistically repay."},
+{n:"Contact your lenders early",f:"Call before you miss more payments. Credit providers must consider hardship requests."},
+{n:"Ask about hardship options",f:"You might be offered lower repayments, a longer loan term or a short pause."},
+{n:"Get free financial counselling",f:"The National Debt Helpline (1800 007 007) connects you with free financial counsellors."},
+{n:"Stick to the plan",f:"Path complete. Paying on time from now on slowly rebuilds your credit score."}
+];
+const DECOYS=[
+{n:"Ignore the letters",why:"Ignoring debt adds fees and interest, and can lead to defaults and legal action."},
+{n:"Take out a payday loan",why:"Payday loans have very high fees and can make debt spiral."},
+{n:"Pay a 'credit repair' company",why:"They often charge big fees for things you can do yourself for free."},
+{n:"Get a new credit card to pay it off",why:"Moving debt to another card usually just adds more debt."},
+{n:"Hide it from everyone",why:"Keeping it secret cuts you off from help and support."},
+{n:"Stop paying rent to cover it",why:"Rent is an essential. Missing it risks losing your home."}
+];
+
+const MANDATE=[
+{s:"Your pay goes up by $80 a fortnight.",c:[
+ {t:"Put it into savings and an emergency fund",e:[15,0,5]},{t:"Use it to pay off your credit card faster",e:[5,10,5]},{t:"Spend it on takeaway each week",e:[-5,0,5]}],
+ note:"Saving or paying down debt both make a pay rise work harder for you."},
+{s:"Your phone screen cracks. A repair costs $200, or you can sign up for a new $1,800 phone on a 24-month plan.",c:[
+ {t:"Get it repaired",e:[5,0,0]},{t:"Sign up for the new phone plan",e:[-10,0,5]},{t:"Buy a new phone with buy now pay later",e:[-10,-5,5]}],
+ note:"Repairing instead of replacing avoids a long contract or new debt."},
+{s:"Your car needs a $600 repair.",c:[
+ {t:"Pay for it from your emergency fund",e:[-10,0,10]},{t:"Put it on a credit card and pay the minimum",e:[0,-10,-5]},{t:"Take out a payday loan",e:[-5,-15,-10]}],
+ note:"This is exactly what an emergency fund is for."},
+{s:"A bank offers you a credit card with a $5,000 limit.",c:[
+ {t:"Decline, you don't need it",e:[5,0,0]},{t:"Accept with a $1,000 limit and pay it in full every month",e:[0,5,0]},{t:"Accept and spend the full limit on a holiday",e:[-15,-10,5]}],
+ note:"A lower limit and paying in full each month avoids interest."},
+{s:"Your electricity bill is due and you're $100 short.",c:[
+ {t:"Call the provider before the due date and ask for a payment plan",e:[0,5,5]},{t:"Ignore it",e:[0,-15,-10]},{t:"Borrow from a payday lender",e:[-10,-10,-5]}],
+ note:"Energy providers have hardship programs. Asking early protects your credit."},
+{s:"Friends want to go to a $250 festival in six weeks.",c:[
+ {t:"Save for it over the next few weeks",e:[5,0,5]},{t:"Put it on buy now pay later today",e:[-5,-5,5]},{t:"Skip it and feel left out",e:[5,0,-10]}],
+ note:"Planning ahead lets you enjoy wants without debt."},
+{s:"You find four streaming subscriptions you barely use.",c:[
+ {t:"Cancel the ones you don't use",e:[10,0,0]},{t:"Keep them all",e:[-5,0,0]},{t:"Add another one",e:[-10,0,5]}],
+ note:"Small regular costs add up. $15 a month is $180 a year."},
+{s:"A friend asks to borrow $300 again. They haven't paid back last time.",c:[
+ {t:"Politely say no and explain your budget",e:[5,0,0]},{t:"Lend it with a written repayment plan",e:[-5,0,5]},{t:"Lend it anyway",e:[-15,0,-5]}],
+ note:"It's okay to protect your budget. Lending only what you can afford to lose is a good rule."},
+{s:"You'd like to support a charity.",c:[
+ {t:"Set up a small regular donation that fits your budget",e:[0,0,15]},{t:"Donate your rent money",e:[-15,-5,5]},{t:"Never give anything",e:[5,0,-5]}],
+ note:"Giving can be part of a budget. Some donations are tax deductible."},
+{s:"Your credit card statement arrives.",c:[
+ {t:"Pay the full balance by the due date",e:[5,15,5]},{t:"Pay only the minimum",e:[-5,0,-5]},{t:"Pay it late",e:[-5,-15,-10]}],
+ note:"Paying in full on time avoids interest and builds a strong credit history."}
+];
+
+const SORTS=[
+{cat:"main",title:"Fixed or variable expense?",bins:["Fixed","Variable"],cards:[
+ ["Rent",0],["Phone plan",0],["Car insurance",0],["Gym membership",0],["Groceries",1],["Fuel",1],["Electricity",1],["Takeaway",1]]},
+{cat:"main",title:"Helps or hurts your credit score?",bins:["Helps","Hurts"],cards:[
+ ["Paying on time every month",0],["Paying debts in full",0],["Applying for credit only when needed",0],["Keeping repayments up during hardship arrangements",0],
+ ["Missing repayments",1],["Applying for lots of credit at once",1],["Having a default listed",1],["Paying two months late",1]]},
+{cat:"main",title:"Smart or risky money move?",bins:["Smart","Risky"],cards:[
+ ["Building an emergency fund",0],["Comparing prices",0],["Paying your credit card in full",0],["Calling your lender early when struggling",0],
+ ["Payday loan to pay another debt",1],["Only paying the minimum",1],["Ignoring bills",1],["Using BNPL for everything",1]]},
+{cat:"a",title:"Debit, credit or prepaid card?",bins:["Debit","Credit","Prepaid"],cards:[
+ ["Spends money already in your account",0],["Linked to your everyday account",0],["Usually can't spend more than your balance",0],
+ ["Spends the bank's money",1],["Charges interest if not paid in full",1],["Has a credit limit",1],
+ ["Loaded with money before you use it",2],["Not linked to a bank account",2],["Handy for travel or gifts",2]]},
+{cat:"b",title:"Need or want?",bins:["Need","Want"],cards:[
+ ["Groceries",0],["Rent",0],["Medicine",0],["Work boots",0],["Concert tickets",1],["Gaming headset",1],["Designer hoodie",1],["Extra streaming service",1]]}
+];
+
+/* ============ ENGINE ============ */
+const KEY=CONFIG.key;
+let store={days:{},practice:0,big:false};
+try{const s=JSON.parse(localStorage.getItem(KEY)||"null");if(s&&typeof s==="object")store=Object.assign(store,s)}catch(e){}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(store))}catch(e){}}
+const S={mode:"daily"};
+let keyHandler=null;
+
+function today(){const d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")}
+function hashStr(s){let h=1779033703^s.length;for(let i=0;i<s.length;i++){h=Math.imul(h^s.charCodeAt(i),3432918353);h=h<<13|h>>>19}return h>>>0}
+function mulberry(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+function rngFor(id){return S.mode==="daily"?mulberry(hashStr(today()+":"+id)):Math.random}
+function pick(pool,n,rng){
+  const copies={};pool.forEach(it=>{(copies[it.cat]=copies[it.cat]||[]).push(it)});
+  const out=[];
+  while(out.length<n){
+    const cats=Object.keys(copies).filter(k=>copies[k].length);if(!cats.length)break;
+    const tot=cats.reduce((s,k)=>s+(CATW[k]||.05),0);let r=rng()*tot,c=cats[cats.length-1];
+    for(const k of cats){r-=CATW[k]||.05;if(r<=0){c=k;break}}
+    const arr=copies[c];out.push(arr.splice(Math.floor(rng()*arr.length),1)[0]);
+  }
+  return out;
+}
+function shuffle(a,rng){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(rng()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function norm(s){return String(s).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/^the /,"").replace(/[^a-z0-9]/g,"")}
+function lev(a,b){if(Math.abs(a.length-b.length)>2)return 9;const d=Array.from({length:a.length+1},(_,i)=>[i]);for(let j=1;j<=b.length;j++)d[0][j]=j;for(let i=1;i<=a.length;i++)for(let j=1;j<=b.length;j++)d[i][j]=Math.min(d[i-1][j]+1,d[i][j-1]+1,d[i-1][j-1]+(a[i-1]===b[j-1]?0:1));return d[a.length][b.length]}
+function matches(input,aliases){
+  const g=norm(input);if(!g)return false;
+  for(const al of aliases){const a=norm(al);if(!a)continue;
+    if(g===a||g+"s"===a||g===a+"s"||g+"es"===a)return true;
+    const tol=a.length>=9?2:a.length>=5?1:0;if(tol&&lev(g,a)<=tol)return true;}
+  return false;
+}
+function fmtNum(n){return Number(n).toLocaleString("en-AU",{maximumFractionDigits:2})}
+function fmtYear(y){return y<0?`${fmtNum(-y)} BCE`:`${y} CE`}
+const $=s=>document.querySelector(s);
+const app=document.getElementById("app");
+
+function record(id,score,max,line){
+  if(S.mode==="daily"){const d=today();store.days[d]=store.days[d]||{};store.days[d][id]={score,max,line}}
+  else store.practice=(store.practice||0)+score;
+  save();
+}
+function streak(){let n=0;const d=new Date();if(!store.days[today()])d.setDate(d.getDate()-1);
+  for(;;){const k=d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");if(store.days[k]&&Object.keys(store.days[k]).length){n++;d.setDate(d.getDate()-1)}else break}return n}
+
+const ICON={
+dynastle:'<path d="M7 5v22M13 5v22M19 5v22M25 5v22M4 11h24M4 21h24"/>',
+obscure:'<path d="M8 7h16M8 25h16M8 7a3 3 0 0 0 0 6M24 7a3 3 0 0 1 0 6M8 19a3 3 0 0 0 0 6M24 19a3 3 0 0 1 0 6M9 13v6M23 13v6M13 14h6M13 18h4"/>',
+closest:'<circle cx="16" cy="16" r="12"/><rect x="12" y="12" width="8" height="8"/>',
+groups:'<rect x="5" y="5" width="9" height="9" rx="1"/><rect x="18" y="5" width="9" height="9" rx="1"/><rect x="5" y="18" width="9" height="9" rx="1"/><rect x="18" y="18" width="9" height="9" rx="1"/>',
+timeline:'<path d="M3 16h26"/><circle cx="7" cy="16" r="2.5"/><circle cx="16" cy="16" r="2.5"/><circle cx="25" cy="16" r="2.5"/><path d="M7 9v4M16 19v4M25 9v4"/>',
+who:'<rect x="5" y="5" width="22" height="22" rx="2"/><path d="M12.5 12.5a3.5 3.5 0 1 1 5 3.2c-1 .5-1.5 1.2-1.5 2.3v.5"/><path d="M16 22.5v.01"/>',
+odd:'<circle cx="9" cy="9" r="4"/><circle cx="23" cy="9" r="4"/><circle cx="9" cy="23" r="4"/><rect x="19" y="19" width="8" height="8"/>',
+place:'<path d="M3 25h26"/><circle cx="7" cy="25" r="2"/><circle cx="25" cy="25" r="2"/><path d="M16 25v-6"/><circle cx="16" cy="12" r="5"/>',
+silk:'<path d="M4 25c7 0 6-9 12-9s5-9 12-9"/><circle cx="4" cy="25" r="2.2"/><circle cx="16" cy="16" r="2.2"/><circle cx="28" cy="7" r="2.2"/>',
+mandate:'<circle cx="16" cy="16" r="5"/><path d="M16 4v4M16 24v4M4 16h4M24 16h4M7.5 7.5l2.8 2.8M21.7 21.7l2.8 2.8M7.5 24.5l2.8-2.8M21.7 10.3l2.8-2.8"/>',
+sort:'<path d="M4 13h7v13H4zM12.5 13h7v13h-7zM21 13h7v13h-7zM13 4h6v5h-6z"/>',
+myth:'<circle cx="16" cy="16" r="12"/><path d="M16 4a6 6 0 0 1 0 12a6 6 0 0 0 0 12"/><circle cx="16" cy="10" r="1.3"/><circle cx="16" cy="22" r="1.3"/>'
+};
+const GAMES=[
+{id:"dynastle",name:"Dynastle",desc:"Guess the hidden word in six tries",run:runWordle},
+{id:"obscure",name:"Obscure Scholar",desc:"Rarer correct answers score more",run:runObscure},
+{id:"closest",name:"Closest Guess",desc:"Estimate the number or year",run:runFermi},
+{id:"groups",name:"Four Treasures",desc:"Sort 16 items into four groups",run:runConnect},
+{id:"timeline",name:"Timeline",desc:"Put six events in order",run:runTimeline},
+{id:"who",name:"Who Am I?",desc:"Name it from as few clues as you can",run:runWho},
+{id:"odd",name:"Odd One Out",desc:"Spot the item that doesn't belong",run:runOdd},
+{id:"myth",name:"Myth or Fact",desc:"Bust the myths about the past",run:runMyth},
+{id:"place",name:"Place in Time",desc:"Slot an event into the timeline",run:runPlace},
+{id:"silk",name:"Silk Road Journey",desc:"Lead a caravan from Chang'an to Rome",run:runSilk},
+{id:"mandate",name:"Mandate of Heaven",desc:"Rule as a Han emperor and keep power",run:runMandate},
+{id:"sort",name:"Sort the Scrolls",desc:"Sort each card into the right group",run:runSort}
+];
+GAMES.forEach(g=>{const o=CONFIG.games[g.id];if(o)Object.assign(g,o)});Object.assign(ICON,CONFIG.icons||{});
+
+function home(){
+  if(keyHandler){document.removeEventListener("keydown",keyHandler);keyHandler=null}
+  const d=new Date(),day=store.days[today()]||{};
+  const played=Object.keys(day).length,total=Object.values(day).reduce((s,r)=>s+Math.round(100*r.score/r.max),0);
+  app.innerHTML=`
+  <header class="hero">
+    <div class="head">
+      <div><h1>${esc(CONFIG.title)}</h1>
+        <p>${esc(CONFIG.tagline)}</p></div>
+      <div class="seal" aria-label="Today's date"><div><b>${d.getDate()}</b><span>${d.toLocaleDateString("en-AU",{month:"short"})}</span></div></div>
+    </div>
+    <svg class="ink" viewBox="0 0 800 200" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+      <circle class="sun" cx="585" cy="58" r="28"/>
+      <path class="birds" d="M430 40q6-6 12 0q6-6 12 0M475 58q4-4 8 0q4-4 8 0"/>
+      <path class="mt3" d="M0 140C80 70 140 105 200 55C260 15 300 95 360 75C420 55 470 5 540 45C600 80 650 55 720 35C760 25 790 55 800 65V200H0Z"/>
+      <path class="mt2" d="M0 170C70 120 120 150 180 110C240 75 290 140 360 120C430 100 480 130 560 100C630 75 700 130 800 110V200H0Z"/>
+      <path class="mt1" d="M0 200V182C100 158 160 188 260 172C360 156 420 192 520 177C620 162 700 188 800 172V200Z"/>
+    </svg>
+  </header>
+  <div class="controls">
+    <div class="seg" role="group" aria-label="Mode">
+      <button data-mode="daily" aria-pressed="${S.mode==="daily"}">Daily</button>
+      <button data-mode="practice" aria-pressed="${S.mode==="practice"}">Practice</button>
+    </div>
+    <button class="chip" id="big" aria-pressed="${!!store.big}">Big screen text</button>
+    <span class="stat">${S.mode==="daily"?`${played}/${GAMES.length} played today · Streak ${streak()} day${streak()===1?"":"s"}`:`Practice points: ${fmtNum(store.practice||0)}`}</span>
+  </div>
+  <nav class="cards" aria-label="Games">
+    ${GAMES.map(g=>{const r=S.mode==="daily"&&day[g.id];return `<button class="card" data-g="${g.id}">
+      ${r?`<span class="done">${r.score}/${r.max}</span>`:""}
+      <span class="emblem"><svg viewBox="0 0 32 32" aria-hidden="true">${ICON[g.id]}</svg></span>
+      <h3>${esc(g.name)}</h3><span class="desc">${esc(g.desc)}</span>
+      <span class="go">${r?"See result":"Play"}</span></button>`}).join("")}
+  </nav>
+  <p class="footnote">${S.mode==="daily"?"Daily puzzles are the same for everyone today and reset at midnight. Switch to Practice for unlimited random rounds.":"Practice gives a fresh random round every time."} ${esc(CONFIG.mix)}</p>`;
+  app.querySelectorAll("[data-mode]").forEach(b=>b.onclick=()=>{S.mode=b.dataset.mode;home()});
+  $("#big").onclick=()=>{store.big=!store.big;save();applyBig();home()};
+  app.querySelectorAll("[data-g]").forEach(b=>b.onclick=()=>openGame(b.dataset.g));
+  window.scrollTo(0,0);
+}
+function applyBig(){if(store.big)document.documentElement.setAttribute("data-big","");else document.documentElement.removeAttribute("data-big")}
+
+function openGame(id){
+  const g=GAMES.find(x=>x.id===id);
+  const done=S.mode==="daily"&&(store.days[today()]||{})[id];
+  if(done){showResult(g,done.score,done.max,done.line,true);return}
+  g.run(g);
+}
+function shell(g,progress,inner){
+  app.innerHTML=`<div class="gtop"><button class="back" id="back">‹ All games</button><span class="progress">${progress||""}</span></div>
+  <h2 class="gtitle" style="margin-bottom:1rem">${esc(g.name)}</h2>${inner}`;
+  $("#back").onclick=home;
+}
+function tag(cat){return `<span class="tag ${cat}">${CATNAME[cat]}</span>`}
+
+function showResult(g,score,max,line,already){
+  if(keyHandler){document.removeEventListener("keydown",keyHandler);keyHandler=null}
+  if(!already)record(g.id,score,max,line);
+  const share=`${CONFIG.title} ${S.mode==="daily"?today():"(practice)"}\n${line}`;
+  shell(g,"",`<div class="panel">
+    ${already?`<p class="muted" style="margin-top:0">You've already played today's ${esc(g.name)}.</p>`:""}
+    <div class="big-score">${score} / ${max}</div>
+    <p class="share" id="sh">${esc(share)}</p>
+    <div class="row">
+      <button class="btn" id="copy">Copy result</button>
+      <button class="btn ghost" id="again">${S.mode==="daily"?"Practise this game":"Play again"}</button>
+      <button class="btn ghost" id="home2">All games</button>
+    </div><p id="cmsg" class="muted"></p></div>`);
+  $("#copy").onclick=async()=>{try{await navigator.clipboard.writeText(share);$("#cmsg").textContent="Copied."}catch(e){$("#cmsg").textContent="Select the text above to copy it."}};
+  $("#again").onclick=()=>{S.mode="practice";g.run(g)};
+  $("#home2").onclick=home;
+}
+
+/* ---------- Dynastle ---------- */
+function runWordle(g){
+  const rng=rngFor(g.id);const item=pick(WORDS,1,rng)[0];const T=item.w;const L=T.length;
+  const guesses=[];let cur="",over=false,msg="";const keyState={};
+  const rows=["QWERTYUIOP","ASDFGHJKL","+ZXCVBNM-"];
+  function evalG(gs){const r=Array(L).fill("absent"),c={};for(let i=0;i<L;i++){if(gs[i]===T[i])r[i]="correct";else c[T[i]]=(c[T[i]]||0)+1}for(let i=0;i<L;i++){if(r[i]!=="correct"&&c[gs[i]]>0){r[i]="present";c[gs[i]]--}}return r}
+  const rank={absent:1,present:2,correct:3};
+  function draw(){
+    let grid="";for(let r=0;r<6;r++){const gs=guesses[r];let cells="";
+      for(let i=0;i<L;i++){if(gs){cells+=`<div class="tile ${gs.res[i]}">${gs.w[i]}</div>`}else if(r===guesses.length&&!over){const ch=cur[i]||"";cells+=`<div class="tile ${ch?"filled":""}">${ch}</div>`}else cells+=`<div class="tile"></div>`}
+      grid+=`<div class="wrow" style="grid-template-columns:repeat(${L},auto)">${cells}</div>`}
+    shell(g,`${L} letters`,`${tag(item.cat)}<p class="clue"><b>Clue:</b> ${esc(item.clue)}</p>
+      <div class="wgrid" role="grid" aria-label="Guesses">${grid}</div>
+      <p class="clue muted" id="wmsg" aria-live="assertive">${esc(msg)}</p>
+      <div class="kb">${rows.map(r=>`<div class="kbr">${[...r].map(k=>k==="+"?`<button class="key wide" data-k="ENTER">Enter</button>`:k==="-"?`<button class="key wide" data-k="DEL" aria-label="Delete">Del</button>`:`<button class="key ${keyState[k]||""}" data-k="${k}">${k}</button>`).join("")}</div>`).join("")}</div>`);
+    app.querySelectorAll("[data-k]").forEach(b=>b.onclick=()=>press(b.dataset.k));
+  }
+  function press(k){
+    if(over)return;
+    if(k==="ENTER"){
+      if(cur.length!==L){msg=`The word has ${L} letters.`;draw();return}
+      const res=evalG(cur);guesses.push({w:cur,res});
+      [...cur].forEach((ch,i)=>{if(!keyState[ch]||rank[res[i]]>rank[keyState[ch]])keyState[ch]=res[i]});
+      const won=cur===T;cur="";msg="";
+      if(won||guesses.length===6){over=true;
+        const grid=guesses.map(x=>x.res.map(r=>r==="correct"?"🟩":r==="present"?"🟨":"⬛").join("")).join("\n");
+        const score=won?7-guesses.length:0;
+        msg=won?`Solved! ${T}.`:`The word was ${T}.`;draw();
+        setTimeout(()=>showResult(g,score,6,`${g.name} ${won?guesses.length:"X"}/6\n${grid}`),1300);return}
+    }else if(k==="DEL"){cur=cur.slice(0,-1)}
+    else if(/^[A-Z]$/.test(k)&&cur.length<L){cur+=k}
+    draw();
+  }
+  keyHandler=e=>{if(e.metaKey||e.ctrlKey||e.altKey)return;const k=e.key;if(k==="Enter"){e.preventDefault();press("ENTER")}else if(k==="Backspace")press("DEL");else if(/^[a-zA-Z]$/.test(k))press(k.toUpperCase())};
+  document.addEventListener("keydown",keyHandler);
+  draw();
+}
+
+/* ---------- Obscure Scholar ---------- */
+function runObscure(g){
+  const rng=rngFor(g.id);const qs=pick(OBSCURE,5,rng);let i=0,total=0,misses=0;const lines=[];
+  function step(){
+    const q=qs[i];misses=0;
+    shell(g,`Prompt ${i+1} of ${qs.length}`,`<div class="panel">${tag(q.cat)}<p class="prompt">${esc(q.q)}</p>
+      <p class="muted" style="margin-top:-.4rem">Common answers score low. Think of something correct that few people would say.</p>
+      <div class="row"><input class="input" id="ans" autocomplete="off" aria-label="Your answer" placeholder="Type one answer"><button class="btn" id="go">Submit</button></div>
+      <div id="fb"></div></div>`);
+    const inp=$("#ans");inp.focus();
+    const submit=()=>{const v=inp.value.trim();if(!v)return;
+      const hit=q.a.find(a=>matches(v,[a[0],...a.slice(2)]));
+      if(!hit){misses++;
+        if(misses<3){$("#fb").innerHTML=`<div class="feedback bad">“${esc(v)}” isn't on our list. Check spelling or try another answer (${3-misses} ${3-misses===1?"try":"tries"} left).</div>`;inp.value="";inp.focus();return}
+        reveal(null,0);return}
+      reveal(hit,hit[1]);};
+    $("#go").onclick=submit;inp.onkeydown=e=>{if(e.key==="Enter")submit()};
+  }
+  function reveal(hit,pts){
+    total+=pts;const q=qs[i];lines.push(pts>=70?"🟥":pts>=40?"🟧":pts>0?"🟨":"⬛");
+    const sorted=q.a.slice().sort((a,b)=>b[1]-a[1]);
+    $("#fb").innerHTML=`<div class="feedback ${pts>=40?"":pts>0?"mid":"bad"}"><b>${hit?`${esc(hit[0])}: ${pts} points`:"No points this time"}</b>
+      <p style="margin:.4rem 0 .2rem">Answers on our list, rarest first:</p>
+      <ul class="list">${sorted.map(a=>`<li class="${hit===a?"you":""}"><span>${esc(a[0])}</span><span class="muted">${a[1]}</span></li>`).join("")}</ul>
+      <div class="row" style="margin-top:.8rem"><button class="btn" id="nx">${i+1<qs.length?"Next prompt":"See result"}</button></div></div>`;
+    $("#go").disabled=true;$("#ans").disabled=true;
+    $("#nx").onclick=()=>{i++;if(i<qs.length)step();else showResult(g,total,qs.length*100,`${g.name} ${total} pts\n${lines.join("")}`)};$("#nx").focus();
+  }
+  step();
+}
+
+/* ---------- Closest Guess ---------- */
+function runFermi(g){
+  const rng=rngFor(g.id);const qs=pick(FERMI,5,rng);let i=0,total=0;const lines=[];
+  function step(){
+    const q=qs[i];let era=-1;
+    shell(g,`Question ${i+1} of ${qs.length}`,`<div class="panel">${tag(q.cat)}<p class="prompt">${esc(q.q)}</p>
+      <div class="row"><input class="input" id="ans" inputmode="decimal" autocomplete="off" aria-label="Your estimate" placeholder="${q.type==="year"?"Year":"Your estimate"}">
+      ${q.type==="year"?`<div class="seg" role="group" aria-label="Era"><button data-era="-1" aria-pressed="true">BCE</button><button data-era="1" aria-pressed="false">CE</button></div>`:`<span class="muted">${esc(q.unit)}</span>`}
+      <button class="btn" id="go">Lock in</button></div><div id="fb"></div></div>`);
+    app.querySelectorAll("[data-era]").forEach(b=>b.onclick=()=>{era=+b.dataset.era;app.querySelectorAll("[data-era]").forEach(x=>x.setAttribute("aria-pressed",x===b))});
+    const inp=$("#ans");inp.focus();
+    const submit=()=>{let v=parseFloat(inp.value.replace(/,/g,""));if(!isFinite(v)){$("#fb").innerHTML=`<div class="feedback bad">Enter a number.</div>`;return}
+      let pts;
+      if(q.type==="year"){v=Math.abs(v)*era;pts=Math.max(0,Math.round(100-Math.abs(v-q.a)/q.scale*100))}
+      else{if(v<=0){$("#fb").innerHTML=`<div class="feedback bad">Enter a number greater than zero.</div>`;return}
+        pts=Math.max(0,Math.round(100*(1-Math.abs(Math.log10(v/q.a))/(q.spread||1))))}
+      total+=pts;lines.push(pts>=90?"🎯":pts>=60?"🟩":pts>=30?"🟨":"⬛");
+      const ans=q.type==="year"?fmtYear(q.a):`${fmtNum(q.a)} ${q.unit}`,you=q.type==="year"?fmtYear(v):`${fmtNum(v)} ${q.unit}`;
+      $("#fb").innerHTML=`<div class="feedback ${pts>=60?"":pts>=30?"mid":"bad"}"><b>${pts} points.</b> You said ${esc(you)}. Answer: ${esc(ans)}.<p style="margin:.4rem 0 0">${esc(q.fact)}</p>
+        <div class="row" style="margin-top:.8rem"><button class="btn" id="nx">${i+1<qs.length?"Next question":"See result"}</button></div></div>`;
+      $("#go").disabled=true;inp.disabled=true;
+      $("#nx").onclick=()=>{i++;if(i<qs.length)step();else showResult(g,total,qs.length*100,`${g.name} ${total} pts\n${lines.join("")}`)};$("#nx").focus();};
+    $("#go").onclick=submit;inp.onkeydown=e=>{if(e.key==="Enter")submit()};
+  }
+  step();
+}
+
+/* ---------- Four Treasures (Connections) ---------- */
+function runConnect(g){
+  const rng=rngFor(g.id);const P=pick(CONNECT,1,rng)[0];
+  const groups=P.groups.map((x,lv)=>({...x,lv}));
+  let tiles=shuffle(groups.flatMap(x=>x.items),rng),sel=[],solved=[],mistakes=0,msg="",foundCount=0;const hist=[];
+  const sq=["🟩","🟫","🟦","🟥"];
+  function draw(){
+    shell(g,`Mistakes left <span class="dots">${[0,1,2,3].map(k=>`<i class="${k<mistakes?"used":""}"></i>`).join("")}</span>`,
+     `${tag(P.cat)}<p class="muted" style="margin-top:0">Find four groups of four. Tap four items, then check.</p>
+     ${solved.map(s=>`<div class="solved lv${s.lv}"><b>${esc(s.name)}</b>${esc(s.items.join(", "))}</div>`).join("")}
+     <div class="cgrid">${tiles.map(t=>`<button class="ctile" data-t="${esc(t)}" aria-pressed="${sel.includes(t)}">${esc(t)}</button>`).join("")}</div>
+     <p class="muted" style="min-height:1.5em;text-align:center" aria-live="assertive">${esc(msg)}</p>
+     <div class="row" style="justify-content:center"><button class="btn ghost" id="shuf">Shuffle</button><button class="btn ghost" id="clr">Deselect</button><button class="btn" id="chk" ${sel.length===4?"":"disabled"}>Check</button></div>`);
+    app.querySelectorAll("[data-t]").forEach(b=>b.onclick=()=>{const t=b.dataset.t;if(sel.includes(t))sel=sel.filter(x=>x!==t);else if(sel.length<4)sel.push(t);msg="";draw()});
+    $("#shuf").onclick=()=>{tiles=shuffle(tiles,Math.random);draw()};
+    $("#clr").onclick=()=>{sel=[];draw()};
+    $("#chk").onclick=check;
+  }
+  function check(){
+    hist.push(sel.map(t=>sq[groups.find(x=>x.items.includes(t)).lv]).join(""));
+    const grp=groups.find(x=>sel.every(t=>x.items.includes(t)));
+    if(grp){solved.push(grp);tiles=tiles.filter(t=>!grp.items.includes(t));sel=[];msg="";
+      if(solved.length===4){draw();return finish(true)}}
+    else{mistakes++;const best=Math.max(...groups.map(x=>sel.filter(t=>x.items.includes(t)).length));
+      msg=best===3?"One away.":"Not a group.";
+      if(mistakes>=4){foundCount=solved.length;solved=solved.concat(groups.filter(x=>!solved.includes(x)));tiles=[];sel=[];msg="Out of mistakes. Here are the groups.";draw();return finish(false)}}
+    draw();
+  }
+  function finish(won){
+    const score=won?8-mistakes:foundCount;
+    setTimeout(()=>showResult(g,score,8,`${g.name} ${won?"solved":"unsolved"}, ${mistakes} mistake${mistakes===1?"":"s"}\n${hist.join("\n")}`),1800);
+  }
+  draw();
+}
+
+/* ---------- Rank It (ordering) ---------- */
+const mkItem=it=>({t:it[0],y:it[1],d:it[2]||("Step "+it[1])});
+function runTimeline(g){
+  const rng=rngFor(g.id);const set=pick(RANK,1,rng)[0];
+  const evs=shuffle(set.items,rng).slice(0,6).map(mkItem);
+  let order=shuffle(evs,rng);const correct=evs.slice().sort((a,b)=>a.y-b.y);let attempt=0,marks=null,done=false,score=0;const lines=[];
+  function draw(){
+    shell(g,`Check ${Math.min(attempt+1,3)} of 3`,`${tag(set.cat)}<h3 style="margin:.2rem 0 .3rem">${esc(set.title)}</h3>
+      <p class="muted" style="margin-top:0">${esc(set.low)} at the top, ${esc(set.high.toLowerCase())} at the bottom. You get three checks.${set.note?" "+esc(set.note):""}</p>
+      <ol class="tl">${order.map((e,k)=>`<li class="${marks?(marks[k]?"ok":"no"):""}">
+        <div class="arrows"><button data-up="${k}" aria-label="Move up" ${k===0||done?"disabled":""}>▲</button><button data-dn="${k}" aria-label="Move down" ${k===order.length-1||done?"disabled":""}>▼</button></div>
+        <span class="txt">${esc(e.t)}</span>${done?`<span class="yr">${esc(e.d)}</span>`:""}</li>`).join("")}</ol>
+      <div class="row" style="margin-top:1rem">${done?`<button class="btn" id="fin">See result</button>`:`<button class="btn" id="chk">Check order</button>`}</div>`);
+    app.querySelectorAll("[data-up]").forEach(b=>b.onclick=()=>{const k=+b.dataset.up;[order[k-1],order[k]]=[order[k],order[k-1]];marks=null;draw()});
+    app.querySelectorAll("[data-dn]").forEach(b=>b.onclick=()=>{const k=+b.dataset.dn;[order[k+1],order[k]]=[order[k],order[k+1]];marks=null;draw()});
+    if($("#chk"))$("#chk").onclick=check;if($("#fin"))$("#fin").onclick=()=>showResult(g,score,100,`${g.name} ${score} pts\n${lines.join("\n")}`);
+  }
+  function check(){
+    attempt++;marks=order.map((e,k)=>e.y===correct[k].y);const n=marks.filter(Boolean).length;lines.push(marks.map(m=>m?"🟩":"⬛").join(""));
+    if(n===order.length){score=[100,70,40][attempt-1];done=true}
+    else if(attempt>=3){score=Math.round(n/order.length*60);done=true;order=correct.slice();marks=order.map(()=>true)}
+    draw();
+  }
+  draw();
+}
+
+/* ---------- Who Am I? ---------- */
+function runWho(g){
+  const rng=rngFor(g.id);const qs=pick(WHO,3,rng);let i=0,total=0;const lines=[];
+  function step(){
+    const q=qs[i];let shown=1,over=false,fb="";
+    function draw(){
+      shell(g,`Mystery ${i+1} of ${qs.length}`,`<div class="panel">${tag(q.cat)}<p class="prompt">Who or what am I?</p>
+        <ol class="cluelist">${q.clues.slice(0,shown).map(c=>`<li>${esc(c)}</li>`).join("")}</ol>
+        ${over?"":`<div class="row"><input class="input" id="ans" autocomplete="off" aria-label="Your guess" placeholder="Your guess"><button class="btn" id="go">Guess</button>
+        <button class="btn ghost" id="more">${shown<5?`Next clue (${100-shown*20} pts left)`:"Give up"}</button></div>`}
+        <div>${fb}</div></div>`);
+      if(over){$("#nx").onclick=()=>{i++;if(i<qs.length)step();else showResult(g,total,qs.length*100,`${g.name} ${total} pts\n${lines.join("")}`)};$("#nx").focus();return}
+      const inp=$("#ans");inp.focus();
+      const submit=()=>{const v=inp.value.trim();if(!v)return;
+        if(matches(v,q.a)){const pts=120-shown*20;total+=pts;lines.push(["","🥇","🥈","🥉","🟩","🟨"][shown]);over=true;
+          fb=`<div class="feedback"><b>${esc(q.a[0])}! ${pts} points.</b><ol class="cluelist" style="margin:.5rem 0 0">${q.clues.slice(shown).map(c=>`<li>${esc(c)}</li>`).join("")}</ol><div class="row" style="margin-top:.8rem"><button class="btn" id="nx">${i+1<qs.length?"Next mystery":"See result"}</button></div></div>`;draw()}
+        else{fb=`<div class="feedback bad">Not “${esc(v)}”.${shown<5?" Try again or reveal another clue.":" Try again or give up."}</div>`;draw()}};
+      $("#go").onclick=submit;inp.onkeydown=e=>{if(e.key==="Enter")submit()};
+      $("#more").onclick=()=>{if(shown<5){shown++;fb="";draw()}else{over=true;lines.push("⬛");fb=`<div class="feedback bad"><b>It was ${esc(q.a[0])}.</b><div class="row" style="margin-top:.8rem"><button class="btn" id="nx">${i+1<qs.length?"Next mystery":"See result"}</button></div></div>`;draw()}};
+    }
+    draw();
+  }
+  step();
+}
+
+/* ---------- Odd One Out & Myth or Fact ---------- */
+function runChoice(g,items,n,render){
+  const rng=rngFor(g.id);const qs=pick(items,n,rng);let i=0,total=0;const lines=[];
+  function step(){
+    const q=qs[i];const {prompt,opts,isRight,why}=render(q,rng);
+    shell(g,`${i+1} of ${qs.length}`,`<div class="panel">${tag(q.cat)}<p class="prompt">${esc(prompt)}</p>
+      <div class="choices">${opts.map((o,k)=>`<button class="choice" data-k="${k}">${esc(o)}</button>`).join("")}</div><div id="fb"></div></div>`);
+    app.querySelectorAll("[data-k]").forEach(b=>b.onclick=()=>{
+      const k=+b.dataset.k,ok=isRight(opts[k]);if(ok)total+=10;lines.push(ok?"🟩":"⬛");
+      app.querySelectorAll("[data-k]").forEach(x=>{x.disabled=true;if(isRight(opts[+x.dataset.k]))x.classList.add("right");else if(x===b)x.classList.add("wrong")});
+      $("#fb").innerHTML=`<div class="feedback ${ok?"":"bad"}"><b>${ok?"Correct.":"Not quite."}</b> ${esc(why)}<div class="row" style="margin-top:.8rem"><button class="btn" id="nx">${i+1<qs.length?"Next":"See result"}</button></div></div>`;
+      $("#nx").onclick=()=>{i++;if(i<qs.length)step();else showResult(g,total,qs.length*10,`${g.name} ${total/10}/${qs.length}\n${lines.join("")}`)};$("#nx").focus();});
+  }
+  step();
+}
+function runOdd(g){runChoice(g,ODD,8,(q,rng)=>({prompt:"Which one doesn't belong?",opts:shuffle(q.o,rng),isRight:o=>o===q.x,why:q.why}))}
+function runMyth(g){runChoice(g,TF,10,q=>({prompt:q.s,opts:["Fact","Myth"],isRight:o=>(o==="Fact")===q.t,why:q.why}))}
+
+/* ---------- Where Does It Fit? ---------- */
+function runPlace(g){
+  const rng=rngFor(g.id);const R=5;let i=0,total=0;const lines=[];const used=new Set();
+  const rounds=[];for(let r=0;r<R;r++){const set=pick(RANK,1,rng)[0];const avail=set.items.filter(it=>!used.has(it));const pool=avail.length?avail:set.items;
+    const t=pool[Math.floor(rng()*pool.length)];used.add(t);
+    const refs=shuffle(set.items.filter(x=>x[1]!==t[1]),rng).slice(0,4).sort((a,b)=>a[1]-b[1]).map(mkItem);rounds.push({set,t:mkItem(t),refs})}
+  function step(){
+    const {set,t,refs}=rounds[i];const right=refs.filter(r=>r.y<t.y).length;let chosen=null;
+    function draw(){
+      let html="";
+      for(let k=0;k<=refs.length;k++){
+        if(chosen===null)html+=`<li class="gap"><button data-gap="${k}">Place it here</button></li>`;
+        else{
+          if(k===right)html+=`<li class="placed ${chosen===right?"ok":"no"}"><span class="txt"><b>${esc(t.t)}</b></span><span class="yr">${esc(t.d)}</span></li>`;
+          if(k===chosen&&chosen!==right)html+=`<li class="gap miss"><span>Your guess</span></li>`;
+        }
+        if(k<refs.length)html+=`<li class="ref"><span class="txt">${esc(refs[k].t)}</span><span class="yr">${esc(refs[k].d)}</span></li>`;
+      }
+      shell(g,`Round ${i+1} of ${R}`,`<div class="panel">${tag(set.cat)}<p class="muted" style="margin:0">${esc(set.title)}. Where does this fit?</p>
+        <p class="prompt">${esc(t.t)}</p>
+        <p class="muted" style="margin-top:-.4rem">${esc(set.low)} at the top, ${esc(set.high.toLowerCase())} at the bottom.</p>
+        <ol class="ptl">${html}</ol><div id="fb"></div></div>`);
+      app.querySelectorAll("[data-gap]").forEach(b=>b.onclick=()=>{
+        chosen=+b.dataset.gap;const off=Math.abs(chosen-right);const pts=off===0?20:off===1?10:0;total+=pts;lines.push(off===0?"🟩":off===1?"🟨":"⬛");draw();
+        $("#fb").innerHTML=`<div class="feedback ${off===0?"":off===1?"mid":"bad"}"><b>${off===0?"Exactly right. 20 points.":off===1?"One spot away. 10 points.":"Not quite. 0 points."}</b> ${esc(t.t)}: ${esc(t.d)}.${set.note?" "+esc(set.note):""}
+          <div class="row" style="margin-top:.8rem"><button class="btn" id="nx">${i+1<R?"Next round":"See result"}</button></div></div>`;
+        $("#nx").onclick=()=>{i++;if(i<R)step();else showResult(g,total,R*20,`${g.name} ${total} pts\n${lines.join("")}`)};$("#nx").focus();});
+    }
+    draw();
+  }
+  step();
+}
+
+/* ---------- Silk Road Journey ---------- */
+function runSilk(g){
+  const rng=rngFor(g.id);let k=1,total=0,tries=0;const lines=[];const max=(ROUTE.length-1)*10;
+  let opts=null,wrong=[],fb="";
+  function newOpts(){opts=shuffle([ROUTE[k],...shuffle(DECOYS,rng).slice(0,2)],rng);wrong=[];tries=0}
+  function draw(){
+    const done=k>=ROUTE.length;
+    shell(g,done?"Arrived":`${CONFIG.journey.step} ${k} of ${ROUTE.length-1}`,`<div class="panel">${tag(CONFIG.journey.cat)}
+      <ol class="route" aria-hidden="true">${ROUTE.map((r,j)=>`<li class="${j<k?"been":j===k?"next":""}"><span class="dot"></span></li>`).join("")}</ol>
+      <p class="trail">${ROUTE.slice(0,Math.min(k,ROUTE.length)).map(r=>esc(r.n)).join(" › ")}${k<ROUTE.length?" › ?":""}</p>
+      <p class="muted" style="margin:.2rem 0 0">${esc(CONFIG.journey.here)} <b>${esc(ROUTE[Math.min(k,ROUTE.length)-1].n)}</b>. ${esc(ROUTE[Math.min(k,ROUTE.length)-1].f)}</p>
+      ${done?"":`<p class="prompt" style="margin-top:1rem">${esc(CONFIG.journey.ask)}</p>
+      <div class="choices one">${opts.map((o,j)=>`<button class="choice ${wrong.includes(o)?"wrong":""}" data-o="${j}" ${wrong.includes(o)?"disabled":""}>${esc(o.n)}</button>`).join("")}</div>`}
+      <div>${fb}</div>${done?`<div class="row" style="margin-top:1rem"><button class="btn" id="fin">See result</button></div>`:""}</div>`);
+    app.querySelectorAll("[data-o]").forEach(b=>b.onclick=()=>{
+      const o=opts[+b.dataset.o];
+      if(o===ROUTE[k]){const pts=tries===0?10:tries===1?5:0;total+=pts;lines.push(tries===0?"🐫":tries===1?"🟨":"⬛");fb=`<div class="feedback"><b>On to ${esc(o.n)}. +${pts}</b></div>`;k++;if(k<ROUTE.length)newOpts();draw()}
+      else{tries++;wrong.push(o);fb=`<div class="feedback bad">${esc(o.why)}</div>`;
+        if(tries>=2){lines.push("⬛");fb+=`<div class="feedback mid">The next stop was ${esc(ROUTE[k].n)}.</div>`;k++;if(k<ROUTE.length)newOpts()}
+        draw()}});
+    if($("#fin"))$("#fin").onclick=()=>showResult(g,total,max,`${g.name} ${total}/${max}\n${lines.join("")}`);
+  }
+  newOpts();draw();
+}
+
+/* ---------- Mandate of Heaven ---------- */
+function runMandate(g){
+  const rng=rngFor(g.id);const evs=shuffle(MANDATE,rng).slice(0,6).map(ev=>({...ev,c:shuffle(ev.c,rng)}));let i=0;const m={h:60,p:60,t:60};const lines=[];let fb="",answered=false,fallen=false;
+  const clamp=v=>Math.max(0,Math.min(100,v));
+  function meter(label,v){return `<div class="meter"><span>${label}</span><div class="bar"><i style="width:${v}%;background:${v<25?"var(--cinnabar)":v<50?"var(--bronze)":"var(--jade)"}"></i></div><b>${v}</b></div>`}
+  function draw(){
+    const ev=evs[i];
+    shell(g,`${CONFIG.sim.unit} ${i+1} of ${evs.length}`,`<div class="panel">${tag(CONFIG.sim.cat)}
+      <p class="muted" style="margin-top:0">${esc(CONFIG.sim.intro)}</p>
+      <div class="meters">${meter(CONFIG.sim.meters[0],m.h)}${meter(CONFIG.sim.meters[1],m.p)}${meter(CONFIG.sim.meters[2],m.t)}</div>
+      <p class="prompt" style="margin-top:1rem">${esc(ev.s)}</p>
+      ${answered?"":`<div class="choices one">${ev.c.map((c,j)=>`<button class="choice" data-c="${j}">${esc(c.t)}</button>`).join("")}</div>`}
+      <div>${fb}</div></div>`);
+    app.querySelectorAll("[data-c]").forEach(b=>b.onclick=()=>{
+      const c=ev.c[+b.dataset.c];const [dh,dp,dt]=c.e;m.h=clamp(m.h+dh);m.p=clamp(m.p+dp);m.t=clamp(m.t+dt);
+      const net=dh+dp+dt;lines.push(net>0?"🟩":net>-10?"🟨":"🟥");
+      const sg=v=>(v>0?"+":"")+v;
+      fallen=m.h===0||m.p===0||m.t===0;answered=true;
+      fb=`<div class="feedback ${net>0?"":net>-10?"mid":"bad"}"><b>You chose: ${esc(c.t)}.</b> ${CONFIG.sim.meters[0]} ${sg(dh)}, ${CONFIG.sim.meters[1].toLowerCase()} ${sg(dp)}, ${CONFIG.sim.meters[2].toLowerCase()} ${sg(dt)}.
+        <p style="margin:.4rem 0 0">${esc(ev.note)}</p>
+        ${fallen?`<p style="margin:.4rem 0 0"><b>${esc(CONFIG.sim.fail)}</b></p>`:""}
+        <div class="row" style="margin-top:.8rem"><button class="btn" id="nx">${!fallen&&i+1<evs.length?"Next":"See result"}</button></div></div>`;
+      draw();
+      $("#nx").onclick=()=>{if(!fallen&&i+1<evs.length){i++;answered=false;fb="";draw()}else{const score=fallen?0:Math.round((m.h+m.p+m.t)/3);
+        showResult(g,score,100,`${g.name} ${fallen?CONFIG.sim.lost:score+"/100"}\n${lines.join("")}`)}};$("#nx").focus();});
+  }
+  draw();
+}
+
+/* ---------- Sort the Scrolls ---------- */
+function runSort(g){
+  const rng=rngFor(g.id);const set=pick(SORTS,1,rng)[0];const cards=shuffle(set.cards,rng);let i=0,score=0;const placed=set.bins.map(()=>[]);const lines=[];let fb="";
+  function draw(){
+    const done=i>=cards.length;const card=cards[i];
+    shell(g,done?"Sorted":`Card ${i+1} of ${cards.length}`,`${tag(set.cat)}<h3 style="margin:.2rem 0 .8rem">${esc(set.title)}</h3>
+      ${done?"":`<div class="sortcard">${esc(card[0])}</div><p class="muted" style="text-align:center;margin:.4rem 0 .8rem">Tap the group it belongs to.</p>`}
+      <div class="bins" style="grid-template-columns:repeat(${set.bins.length},minmax(0,1fr))">${set.bins.map((b,j)=>`<div class="bin">
+        <button class="btn ${done?"ghost":""}" data-b="${j}" ${done?"disabled":""}>${esc(b)}</button>
+        <ul>${placed[j].map(p=>`<li class="${p.ok?"ok":"no"}">${esc(p.text)}${p.ok?"":` <span class="muted">(${esc(set.bins[p.right])})</span>`}</li>`).join("")}</ul></div>`).join("")}</div>
+      <div>${fb}</div>${done?`<div class="row" style="margin-top:1rem"><button class="btn" id="fin">See result</button></div>`:""}`);
+    app.querySelectorAll("[data-b]").forEach(b=>b.onclick=()=>{
+      const j=+b.dataset.b,ok=j===card[1];if(ok)score++;lines.push(ok?"🟩":"⬛");placed[j].push({text:card[0],ok,right:card[1]});
+      fb=ok?"":`<div class="feedback bad">“${esc(card[0])}” belongs in ${esc(set.bins[card[1]])}.</div>`;i++;draw()});
+    if($("#fin"))$("#fin").onclick=()=>showResult(g,score,cards.length,`${g.name}: ${set.title} ${score}/${cards.length}\n${lines.join("")}`);
+  }
+  draw();
+}
+
+applyBig();home();
+</script>
+</body>
+</html>
